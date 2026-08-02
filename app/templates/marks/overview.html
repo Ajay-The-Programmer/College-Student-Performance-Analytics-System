@@ -1,14 +1,178 @@
 {% extends "base.html" %}
-{% block title %}Marks & Grades Overview - College Analytics System{% endblock %}
+
+{% block title %}Marks Management - College Student Performance Analytics System{% endblock %}
+
 {% block content %}
 <div class="container py-4">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <h2 class="fw-bold text-navy"><i class="bi bi-journal-bookmark me-2 text-warning"></i>Marks & Grade Management</h2>
-        <a href="{{ url_for('marks.enter_marks') }}" class="btn btn-warning rounded-pill text-dark"><i class="bi bi-plus-circle me-1"></i>Enter Exam Marks</a>
+    <!-- Header Section -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold text-navy mb-1"><i class="bi bi-journal-check text-warning me-2"></i>Marks Management</h2>
+            <p class="text-muted small mb-0">Record and manage internal and external academic exam scores</p>
+        </div>
+        <a href="{{ url_for('marks.add_marks') }}" class="btn btn-warning text-dark rounded-pill px-4 fw-semibold">
+            <i class="bi bi-plus-lg me-1"></i> Add Marks
+        </a>
     </div>
-    <div class="card border-0 shadow-sm rounded-4 p-4">
-        <h5 class="fw-bold mb-3">Recent Examination Evaluation Results</h5>
-        <p class="text-muted">Grade entry and academic transcript calculation interface.</p>
+
+    <!-- Summary Metrics Cards (3 Cards) -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-primary">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted small fw-semibold text-uppercase">Average Marks</span>
+                        <h3 class="fw-bold text-primary mb-0 mt-1">{{ avg_marks }}</h3>
+                    </div>
+                    <div class="bg-primary-soft text-primary rounded-circle p-3">
+                        <i class="bi bi-calculator-fill fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-success">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted small fw-semibold text-uppercase">Highest Marks</span>
+                        <h3 class="fw-bold text-success mb-0 mt-1">{{ highest_marks }}</h3>
+                    </div>
+                    <div class="bg-success-soft text-success rounded-circle p-3">
+                        <i class="bi bi-trophy-fill fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-info">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted small fw-semibold text-uppercase">Total Records</span>
+                        <h3 class="fw-bold text-info mb-0 mt-1">{{ total_records }}</h3>
+                    </div>
+                    <div class="bg-info-soft text-info rounded-circle p-3">
+                        <i class="bi bi-file-earmark-text-fill fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Search Bar Section -->
+    <div class="card border-0 shadow-sm rounded-4 p-3 mb-4">
+        <form method="GET" action="{{ url_for('marks.overview') }}" class="row g-2 align-items-center">
+            <div class="col-md-9 col-lg-10">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" name="q" class="form-control bg-light border-start-0" placeholder="Search by student name, roll number, or subject..." value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-2 d-flex gap-2">
+                <button type="submit" class="btn btn-warning text-dark w-100 rounded-pill fw-semibold">Search</button>
+                {% if search_query %}
+                <a href="{{ url_for('marks.overview') }}" class="btn btn-outline-secondary rounded-pill">Clear</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Marks Table Section -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Student Name</th>
+                        <th>Roll Number</th>
+                        <th>Subject</th>
+                        <th>Internal (30)</th>
+                        <th>External (70)</th>
+                        <th>Total (100)</th>
+                        <th class="text-center pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if marks_list %}
+                        {% for record in marks_list %}
+                        <tr>
+                            <td class="ps-4 fw-bold text-navy">
+                                {{ record.student.first_name }} {{ record.student.last_name }}
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ record.student.roll_number }}</span></td>
+                            <td>{{ record.subject.subject_code }} - {{ record.subject.subject_name }}</td>
+                            <td>{{ record.internal_marks }}</td>
+                            <td>{{ record.external_marks }}</td>
+                            <td class="fw-bold text-primary">{{ (record.internal_marks + record.external_marks)|round(2) }}</td>
+                            <td class="text-center pe-4">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{{ url_for('marks.edit_marks', id=record.id) }}" class="btn btn-outline-primary rounded-start-pill px-3">
+                                        <i class="bi bi-pencil-square me-1"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger rounded-end-pill px-3" data-bs-toggle="modal" data-bs-target="#deleteModal{{ record.id }}">
+                                        <i class="bi bi-trash-fill me-1"></i> Delete
+                                    </button>
+                                </div>
+
+                                <!-- Delete Confirmation Modal -->
+                                <div class="modal fade text-start" id="deleteModal{{ record.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ record.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content rounded-4 border-0 shadow">
+                                            <div class="modal-header border-bottom-0">
+                                                <h5 class="modal-title fw-bold text-danger" id="deleteModalLabel{{ record.id }}">
+                                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Delete
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body py-3">
+                                                Are you sure you want to delete marks record for <strong>{{ record.student.first_name }} {{ record.student.last_name }}</strong> in <strong>{{ record.subject.subject_name }}</strong>?
+                                                <p class="text-muted small mt-2 mb-0">This action cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer border-top-0">
+                                                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                                                <form action="{{ url_for('marks.delete_marks', id=record.id) }}" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-danger rounded-pill px-4">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <i class="bi bi-journal-x display-4 d-block mb-2 text-secondary"></i>
+                                No marks records found.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if pagination.pages > 1 %}
+    <nav aria-label="Marks List Pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                <a class="page-link rounded-start-pill" href="{{ url_for('marks.overview', page=pagination.prev_num, q=search_query) }}">Previous</a>
+            </li>
+            {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if p %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('marks.overview', page=p, q=search_query) }}">{{ p }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">…</span></li>
+                {% endif %}
+            {% endfor %}
+            <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                <a class="page-link rounded-end-pill" href="{{ url_for('marks.overview', page=pagination.next_num, q=search_query) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 </div>
 {% endblock %}
