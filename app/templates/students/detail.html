@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Student Profile #{{ student_id }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <a href="{{ url_for('students.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill mb-3"><i class="bi bi-arrow-left me-1"></i>Back to Directory</a>
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h3 class="fw-bold">Student Profile Details (ID: {{ student_id }})</h3>
+        <p class="text-muted">Detailed view for student academic records and attendance overview.</p>
+    </div>
+</div>
+{% endblock %}

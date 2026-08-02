@@ -1,0 +1,104 @@
+/*
+==============================================================================
+style.css
+Project: College Student Performance Analytics System
+Description: Custom CSS styles augmenting Bootstrap 5 layout, cards, gradients,
+             glassmorphism effects, and smooth interactive hover animations.
+==============================================================================
+*/
+
+:root {
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --navy-primary: #0F172A;
+    --navy-secondary: #1E293B;
+    --accent-blue: #2563EB;
+    --accent-warning: #F59E0B;
+    --accent-success: #10B981;
+    --accent-danger: #EF4444;
+    --accent-info: #06B6D4;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: #334155;
+    background-color: #F8FAFC;
+}
+
+/* Custom Navigation Header */
+.bg-gradient-navy {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
+}
+
+.brand-text {
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+}
+
+/* Hero Section */
+.bg-gradient-hero {
+    background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #1E293B 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-white-10 {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.border-white-20 {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.text-light-80 {
+    color: rgba(241, 245, 249, 0.85);
+}
+
+/* Soft Color Pill Badges for Cards */
+.bg-primary-soft { background-color: rgba(37, 99, 235, 0.1); }
+.bg-success-soft { background-color: rgba(16, 185, 129, 0.1); }
+.bg-warning-soft { background-color: rgba(245, 158, 11, 0.15); }
+.bg-info-soft    { background-color: rgba(6, 182, 212, 0.1); }
+.bg-danger-soft  { background-color: rgba(239, 68, 68, 0.1); }
+.bg-secondary-soft { background-color: rgba(100, 116, 139, 0.1); }
+
+/* Card Animations & Micro-Interactions */
+.hover-lift {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05) !important;
+}
+
+.text-navy {
+    color: var(--navy-primary);
+}
+
+/* Custom Divider */
+.divider {
+    height: 4px;
+}
+
+/* Utility Classes */
+.fw-extrabold {
+    font-weight: 800;
+}
+
+.tracking-wide {
+    letter-spacing: 0.05em;
+}
+
+.tracking-wider {
+    letter-spacing: 0.08em;
+}
+
+/* Smooth Transitions */
+.btn {
+    transition: all 0.2s ease-in-out;
+}

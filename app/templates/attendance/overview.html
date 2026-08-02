@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Attendance Overview - College Analytics System{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="fw-bold text-navy"><i class="bi bi-calendar-check me-2 text-success"></i>Attendance Tracking</h2>
+        <a href="{{ url_for('attendance.mark_attendance') }}" class="btn btn-success rounded-pill"><i class="bi bi-check2-square me-1"></i>Mark Attendance</a>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <h3 class="display-6 fw-bold text-success">92.4%</h3>
+                <span class="text-muted">Average College Attendance Rate</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <h3 class="display-6 fw-bold text-warning">14</h3>
+                <span class="text-muted">Students Below 75% Threshold</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <h3 class="display-6 fw-bold text-info">180</h3>
+                <span class="text-muted">Total Instructional Days</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

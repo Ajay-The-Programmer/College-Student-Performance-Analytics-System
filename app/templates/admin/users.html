@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}User Management - Admin{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold"><i class="bi bi-people me-2"></i>User Management</h3>
+    <p class="text-muted">Manage system users, roles, and permissions.</p>
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>admin</td><td>admin@college.edu</td><td><span class="badge bg-danger">Admin</span></td><td><span class="badge bg-success">Active</span></td></tr>
+                <tr><td>2</td><td>faculty_smith</td><td>smith@college.edu</td><td><span class="badge bg-primary">Faculty</span></td><td><span class="badge bg-success">Active</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

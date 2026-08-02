@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Login - College Student Performance Analytics System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-shield-lock text-primary display-4"></i>
+                    <h3 class="fw-bold mt-2">Account Login</h3>
+                    <p class="text-muted small">Authentication blueprint view placeholder</p>
+                </div>
+                <div class="alert alert-info py-2 small">
+                    <i class="bi bi-info-circle me-1"></i> Authentication logic is currently disabled in initial setup.
+                </div>
+                <form onsubmit="return false;">
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Username or Email</label>
+                        <input type="text" class="form-control rounded-3" placeholder="enter username" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Password</label>
+                        <input type="password" class="form-control rounded-3" placeholder="••••••••" disabled>
+                    </div>
+                    <button class="btn btn-primary w-100 rounded-pill fw-semibold py-2" disabled>Sign In</button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('index') }}" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

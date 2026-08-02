@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}System Settings - Admin{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold"><i class="bi bi-sliders me-2"></i>System Settings</h3>
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h5 class="fw-bold mb-3">Environment Parameters</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between"><span>Database Host</span><code>localhost:3306</code></li>
+            <li class="list-group-item d-flex justify-content-between"><span>ORM Backend</span><code>SQLAlchemy + PyMySQL</code></li>
+            <li class="list-group-item d-flex justify-content-between"><span>Analytics Engine</span><code>Scikit-Learn + Plotly</code></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

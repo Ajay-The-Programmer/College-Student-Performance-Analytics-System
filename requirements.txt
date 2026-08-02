@@ -1,0 +1,28 @@
+# ==============================================================================
+# Requirements file for College Student Performance Analytics System
+# Tech Stack: Python 3.12+, Flask, MySQL, SQLAlchemy, Pandas, NumPy, Scikit-learn, Plotly
+# ==============================================================================
+
+# Core Web Framework & Extensions
+Flask>=3.0.0
+Flask-SQLAlchemy>=3.1.1
+Flask-Migrate>=4.0.5
+Flask-Login>=0.6.3
+python-dotenv>=1.0.0
+
+# Database Connectivity
+PyMySQL>=1.1.0
+cryptography>=41.0.0
+
+# Data Science, Analytics & Machine Learning Stack
+numpy>=1.26.0
+pandas>=2.1.0
+scikit-learn>=1.3.0
+plotly>=5.18.0
+
+# Form Handling & Validation
+Flask-WTF>=1.2.1
+email-validator>=2.1.0
+
+# Utility & Server
+gunicorn>=21.2.0

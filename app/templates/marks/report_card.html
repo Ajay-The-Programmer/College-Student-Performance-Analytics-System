@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Student Report Card #{{ student_id }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold"><i class="bi bi-card-heading me-2"></i>Academic Report Card (ID: {{ student_id }})</h3>
+    <div class="card border-0 shadow-sm rounded-4 p-4 mt-3">
+        <p class="text-muted">Semester breakdown, GPA score calculation, and subject grades.</p>
+    </div>
+</div>
+{% endblock %}

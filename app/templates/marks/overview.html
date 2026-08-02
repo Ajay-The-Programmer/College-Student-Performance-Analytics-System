@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Marks & Grades Overview - College Analytics System{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="fw-bold text-navy"><i class="bi bi-journal-bookmark me-2 text-warning"></i>Marks & Grade Management</h2>
+        <a href="{{ url_for('marks.enter_marks') }}" class="btn btn-warning rounded-pill text-dark"><i class="bi bi-plus-circle me-1"></i>Enter Exam Marks</a>
+    </div>
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h5 class="fw-bold mb-3">Recent Examination Evaluation Results</h5>
+        <p class="text-muted">Grade entry and academic transcript calculation interface.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - College Analytics System{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="fw-bold text-navy"><i class="bi bi-shield-lock me-2 text-danger"></i>Admin Dashboard</h2>
+        <span class="badge bg-danger px-3 py-2 rounded-pill">Admin Blueprint</span>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <i class="bi bi-people display-5 text-primary mb-2"></i>
+                <h5 class="fw-bold">User Management</h5>
+                <a href="{{ url_for('admin.users') }}" class="btn btn-sm btn-outline-primary rounded-pill mt-2">Manage Users</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <i class="bi bi-sliders display-5 text-warning mb-2"></i>
+                <h5 class="fw-bold">System Settings</h5>
+                <a href="{{ url_for('admin.settings') }}" class="btn btn-sm btn-outline-warning rounded-pill mt-2">Config Settings</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
+                <i class="bi bi-database display-5 text-info mb-2"></i>
+                <h5 class="fw-bold">Database Status</h5>
+                <span class="text-muted small d-block mt-2">MySQL Unconnected</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

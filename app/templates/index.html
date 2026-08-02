@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}College Student Performance Analytics System - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Header Section -->
+<section class="hero-section text-white py-5 bg-gradient-hero mb-5 shadow-sm">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8 text-center text-lg-start">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 tracking-wider">
+                    <i class="bi bi-mortarboard-fill me-1"></i> College Diploma Project
+                </span>
+                <h1 class="display-4 fw-extrabold mb-3">College Student Performance Analytics System</h1>
+                <p class="lead text-light-80 mb-4 me-lg-4">
+                    A simple and clean web application to manage student records, track attendance, manage exam marks, analyze performance, and predict pass or fail results.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    <a href="{{ url_for('analytics.dashboard') }}" class="btn btn-warning btn-lg rounded-pill px-4 font-weight-bold shadow-sm">
+                        <i class="bi bi-bar-chart-line-fill me-2"></i>Analyze Student Performance
+                    </a>
+                    <a href="{{ url_for('students.index') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                        <i class="bi bi-people-fill me-2"></i>Manage Students
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-center">
+                <div class="hero-graphic p-4 rounded-4 bg-white-10 backdrop-blur border border-white-20 shadow-lg">
+                    <i class="bi bi-graph-up-arrow display-1 text-warning"></i>
+                    <h5 class="mt-3 text-white fw-bold">Predict Student Result</h5>
+                    <p class="small text-white-50 mb-0">Simple Decision Tree classifier model to predict PASS or FAIL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modules & Features Grid -->
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-navy mb-2">Project Modules</h2>
+        <p class="text-muted fs-5">Easy-to-understand features for managing student academic performance</p>
+        <div class="divider bg-warning mx-auto rounded-pill" style="width: 80px; height: 4px;"></div>
+    </div>
+
+    <div class="row g-4">
+        <!-- 1. Manage Students -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-primary-soft text-primary rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-people-fill fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Manage Students</h4>
+                    <p class="card-text text-muted">
+                        Add, edit, delete, and search student records, departments, and roll numbers.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('students.index') }}" class="btn btn-outline-primary w-100 rounded-pill fw-semibold">
+                        View Students <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Track Attendance -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-success-soft text-success rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-calendar-check-fill fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Track Attendance</h4>
+                    <p class="card-text text-muted">
+                        Mark student attendance and calculate attendance percentages.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('attendance.overview') }}" class="btn btn-outline-success w-100 rounded-pill fw-semibold">
+                        Attendance <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Manage Marks -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-warning-soft text-warning rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-journal-check fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Manage Marks</h4>
+                    <p class="card-text text-muted">
+                        Add and edit exam marks and calculate total marks for each student.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('marks.overview') }}" class="btn btn-outline-warning text-dark w-100 rounded-pill fw-semibold">
+                        Manage Marks <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Analyze Student Performance -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-info-soft text-info rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-bar-chart-fill fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Analyze Student Performance</h4>
+                    <p class="card-text text-muted">
+                        View dashboard charts using Plotly showing total students, attendance, pass and fail rates.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('analytics.dashboard') }}" class="btn btn-outline-info w-100 rounded-pill fw-semibold">
+                        View Charts <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Predict Student Result -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-danger-soft text-danger rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-cpu-fill fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Predict Student Result</h4>
+                    <p class="card-text text-muted">
+                        Simple Machine Learning model (Decision Tree) to predict PASS or FAIL status.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('analytics.predict_performance') }}" class="btn btn-outline-danger w-100 rounded-pill fw-semibold">
+                        Predict Result <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. User Login -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="feature-icon bg-secondary-soft text-secondary rounded-3 mb-3 d-inline-flex align-items-center justify-content-center px-3 py-2">
+                        <i class="bi bi-shield-lock-fill fs-3"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">User Login</h4>
+                    <p class="card-text text-muted">
+                        Simple login system supporting Admin Login and Faculty Login access.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary w-100 rounded-pill fw-semibold">
+                        Login Page <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Overview Section -->
+<div class="bg-white py-5 border-top border-bottom">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h3 class="fw-bold text-navy mb-3">Key Features</h3>
+                <ul class="list-unstyled space-y-3 fs-6">
+                    <li class="mb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span><strong>Student Management:</strong> Add, edit, delete, and search students.</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span><strong>Attendance & Marks:</strong> Track class attendance and record exam scores.</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span><strong>Performance Charts:</strong> View visual statistics with Plotly charts.</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span><strong>ML Prediction:</strong> Predict PASS or FAIL using Decision Tree model.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="p-4 bg-light rounded-4 border">
+                    <h5 class="fw-bold text-secondary mb-3">Technology Stack</h5>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <span class="badge bg-secondary p-2">Python 3.12+</span>
+                        <span class="badge bg-primary p-2">Flask Framework</span>
+                        <span class="badge bg-info p-2">MySQL Database</span>
+                        <span class="badge bg-success p-2">Scikit-learn</span>
+                        <span class="badge bg-warning text-dark p-2">Plotly Charts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

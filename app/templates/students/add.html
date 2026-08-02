@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add New Student{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold mb-3"><i class="bi bi-person-plus me-2"></i>Add Student Record</h3>
+    <div class="card border-0 shadow-sm rounded-4 p-4 style-form">
+        <form onsubmit="return false;">
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Full Name</label>
+                <input type="text" class="form-control rounded-3" placeholder="Enter student name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Department</label>
+                <select class="form-select rounded-3">
+                    <option>Computer Science</option>
+                    <option>Information Technology</option>
+                    <option>Electronics</option>
+                </select>
+            </div>
+            <button class="btn btn-success rounded-pill px-4" disabled>Submit Student</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

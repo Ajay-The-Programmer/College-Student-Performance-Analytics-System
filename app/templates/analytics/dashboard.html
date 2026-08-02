@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Performance Analytics & Data Science - College System{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="fw-bold text-navy mb-1"><i class="bi bi-graph-up-arrow me-2 text-info"></i>Analytics Dashboard</h2>
+            <p class="text-muted mb-0">Powered by Pandas, NumPy, Scikit-learn & Plotly dynamic charts</p>
+        </div>
+        <div>
+            <a href="{{ url_for('analytics.predict_performance') }}" class="btn btn-info text-white rounded-pill"><i class="bi bi-cpu me-1"></i>Run ML Predictor</a>
+        </div>
+    </div>
+    
+    <!-- Plotly Visualization Mock Card -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="fw-bold mb-0">Academic Score Distribution Trends</h5>
+            <span class="badge bg-primary">Plotly Interactive Chart</span>
+        </div>
+        <div class="p-5 text-center bg-light rounded-3 border border-dashed">
+            <i class="bi bi-bar-chart-line text-info display-2 mb-3"></i>
+            <h5 class="fw-bold">Interactive Chart Container</h5>
+            <p class="text-muted">Plotly JavaScript / Python backend renderer target element</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
