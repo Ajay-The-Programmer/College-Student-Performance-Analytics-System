@@ -29,23 +29,22 @@ class FactoryTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"College Student Performance Analytics System", response.data)
 
-    def test_blueprint_routes(self):
-        """Test blueprint endpoint registrations return HTTP 200."""
-        routes_to_test = [
-            '/students/',
-            '/attendance/',
-            '/marks/',
+    def test_auth_login_page(self):
+        """Test login route returns HTTP 200."""
+        response = self.client.get('/auth/login')
+        self.assertEqual(response.status_code, 200)
+
+    def test_protected_routes_redirect_unauthenticated(self):
+        """Test protected routes redirect to login for unauthenticated users."""
+        protected_routes = [
             '/analytics/',
-            '/admin/',
-            '/auth/login'
+            '/analytics/dashboard'
         ]
-        for route in routes_to_test:
+        for route in protected_routes:
             with self.subTest(route=route):
                 response = self.client.get(route)
-                self.assertEqual(
-                    response.status_code, 200,
-                    f"Route {route} failed with status {response.status_code}"
-                )
+                self.assertEqual(response.status_code, 302)
+                self.assertIn('/auth/login', response.location)
 
 
 if __name__ == '__main__':

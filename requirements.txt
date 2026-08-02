@@ -6,7 +6,6 @@
 # Core Web Framework & Extensions
 Flask>=3.0.0
 Flask-SQLAlchemy>=3.1.1
-Flask-Migrate>=4.0.5
 Flask-Login>=0.6.3
 python-dotenv>=1.0.0
 

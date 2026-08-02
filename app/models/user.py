@@ -8,6 +8,7 @@ Description: Database model for User accounts (Admin and Faculty login).
 
 from datetime import datetime
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db, login_manager
 
 
@@ -30,6 +31,14 @@ class User(UserMixin, db.Model):
 
     # Account creation timestamp
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def set_password(self, password):
+        """Hash and set user password using Werkzeug."""
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Verify password against stored hash."""
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"<User username='{self.username}' role='{self.role}'>"

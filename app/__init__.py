@@ -9,8 +9,9 @@ Description: Core application package initializer featuring the Flask Applicatio
 
 import os
 from flask import Flask, render_template
+from flask_login import login_required
 from config import config_by_name
-from app.extensions import db, migrate, login_manager
+from app.extensions import db, login_manager
 
 
 def create_app(config_name=None):
@@ -33,7 +34,6 @@ def create_app(config_name=None):
 
     # Initialize Flask Extensions with App Instance
     db.init_app(flask_app)
-    migrate.init_app(flask_app, db)
     login_manager.init_app(flask_app)
 
     # Register database models & login user loader
@@ -47,6 +47,13 @@ def create_app(config_name=None):
     def index():
         """Main Home Page displaying project overview and navigation."""
         return render_template('index.html')
+
+    # Common Dashboard Route
+    @flask_app.route('/dashboard')
+    @login_required
+    def dashboard():
+        """Main Dashboard route for logged-in users."""
+        return render_template('dashboard.html')
 
     # Error Handlers
     @flask_app.errorhandler(404)
