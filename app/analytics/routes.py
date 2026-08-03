@@ -2,8 +2,8 @@
 app/analytics/routes.py
 ==============================================================================
 Project: College Student Performance Analytics System
-Description: Analytics Blueprint route handlers (Summary Cards, Plotly Charts,
-             At-Risk Student Identification).
+Description: Analytics Blueprint route handlers (Dashboard, Plotly Visualizations,
+             Machine Learning Logistic Regression Performance Predictions).
 ==============================================================================
 """
 
@@ -12,6 +12,7 @@ from flask import render_template
 from flask_login import login_required
 import plotly
 import plotly.express as px
+from sklearn.linear_model import LogisticRegression
 
 from app.analytics import analytics_bp
 from app.models.student import Student
@@ -158,15 +159,93 @@ def dashboard():
     )
 
 
+@analytics_bp.route('/predictions')
 @analytics_bp.route('/predict', methods=['GET', 'POST'])
 @login_required
 def predict_performance():
-    """Placeholder route redirecting to dashboard."""
-    return render_template('analytics/dashboard.html')
+    """
+    Train a Logistic Regression model on database records (Attendance %, Average Marks)
+    and predict PASS or FAIL for every student.
+    """
+    students = Student.query.order_by(Student.roll_number.asc()).all()
+
+    X = []
+    y = []
+    student_records = []
+
+    for s in students:
+        # Calculate Attendance %
+        st_att = Attendance.query.filter_by(student_id=s.id).all()
+        if st_att:
+            st_present = sum(1 for a in st_att if a.status == 'Present')
+            att_pct = round((st_present / len(st_att)) * 100, 2)
+        else:
+            att_pct = 0.0
+
+        # Calculate Average Total Marks
+        st_marks = Marks.query.filter_by(student_id=s.id).all()
+        if st_marks:
+            st_totals = [m.internal_marks + m.external_marks for m in st_marks]
+            avg_marks = round(sum(st_totals) / len(st_totals), 2)
+        else:
+            avg_marks = 0.0
+
+        # Training label rules: PASS (1) if att_pct >= 75 and avg_marks >= 40, else FAIL (0)
+        label = 1 if (att_pct >= 75.0 and avg_marks >= 40.0) else 0
+
+        X.append([att_pct, avg_marks])
+        y.append(label)
+        student_records.append({
+            'roll_number': s.roll_number,
+            'name': f"{s.first_name} {s.last_name}",
+            'att_pct': att_pct,
+            'avg_marks': avg_marks
+        })
+
+    total_students_analysed = len(student_records)
+    predicted_pass = 0
+    predicted_fail = 0
+    accuracy = 0.0
+    prediction_results = []
+
+    if total_students_analysed > 0:
+        # Train Logistic Regression Model
+        model = LogisticRegression()
+        model.fit(X, y)
+        raw_score = model.score(X, y) * 100
+        accuracy = round(raw_score, 1)
+
+        predictions = model.predict(X)
+
+        for i, s_info in enumerate(student_records):
+            pred = predictions[i]
+            if pred == 1:
+                pred_label = 'PASS'
+                predicted_pass += 1
+            else:
+                pred_label = 'FAIL'
+                predicted_fail += 1
+
+            prediction_results.append({
+                'roll_number': s_info['roll_number'],
+                'name': s_info['name'],
+                'attendance_pct': f"{s_info['att_pct']}%",
+                'avg_marks': s_info['avg_marks'],
+                'prediction': pred_label
+            })
+
+    return render_template(
+        'analytics/predictions.html',
+        total_students_analysed=total_students_analysed,
+        predicted_pass=predicted_pass,
+        predicted_fail=predicted_fail,
+        accuracy=int(accuracy) if accuracy == int(accuracy) else accuracy,
+        prediction_results=prediction_results
+    )
 
 
 @analytics_bp.route('/at-risk')
 @login_required
 def at_risk_students():
-    """Placeholder route redirecting to dashboard."""
+    """Redirect to main analytics dashboard."""
     return render_template('analytics/dashboard.html')
