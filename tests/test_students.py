@@ -96,7 +96,7 @@ class StudentTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Student added successfully.", response.data)
+        self.assertIn(b"Student Added Successfully", response.data)
         self.assertIn(b"CS103", response.data)
 
     def test_add_student_duplicate_roll_number(self):
@@ -140,7 +140,7 @@ class StudentTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Student updated successfully.", response.data)
+        self.assertIn(b"Student Updated Successfully", response.data)
         self.assertIn(b"Alice Williams", response.data)
 
     def test_delete_student_success(self):
@@ -151,7 +151,7 @@ class StudentTestCase(unittest.TestCase):
 
         response = self.client.post(f'/students/delete/{student_id}', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Student deleted successfully.", response.data)
+        self.assertIn(b"Student Deleted Successfully", response.data)
 
         with self.app.app_context():
             deleted_student = Student.query.get(student_id)

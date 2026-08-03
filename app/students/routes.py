@@ -128,7 +128,7 @@ def add_student():
         db.session.add(new_student)
         db.session.commit()
 
-        flash('Student added successfully.', 'success')
+        flash('Student Added Successfully', 'success')
         return redirect(url_for('students.index'))
 
     return render_template('students/form.html', student=None, action='Add')
@@ -211,7 +211,7 @@ def edit_student(id):
 
         db.session.commit()
 
-        flash('Student updated successfully.', 'success')
+        flash('Student Updated Successfully', 'success')
         return redirect(url_for('students.index'))
 
     return render_template('students/form.html', student=student, action='Edit')
@@ -227,5 +227,5 @@ def delete_student(id):
     db.session.delete(student)
     db.session.commit()
 
-    flash('Student deleted successfully.', 'success')
+    flash('Student Deleted Successfully', 'success')
     return redirect(url_for('students.index'))

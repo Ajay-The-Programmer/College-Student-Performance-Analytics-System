@@ -156,7 +156,7 @@ def add_marks():
         db.session.add(new_marks)
         db.session.commit()
 
-        flash('Marks saved successfully.', 'success')
+        flash('Marks Saved Successfully', 'success')
         return redirect(url_for('marks.overview'))
 
     return render_template(
@@ -256,7 +256,7 @@ def edit_marks(id):
 
         db.session.commit()
 
-        flash('Marks updated successfully.', 'success')
+        flash('Marks Updated Successfully', 'success')
         return redirect(url_for('marks.overview'))
 
     return render_template(
@@ -278,5 +278,5 @@ def delete_marks(id):
     db.session.delete(marks)
     db.session.commit()
 
-    flash('Marks deleted successfully.', 'success')
+    flash('Marks Deleted Successfully', 'success')
     return redirect(url_for('marks.overview'))

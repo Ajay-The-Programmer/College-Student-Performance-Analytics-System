@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Analytics Dashboard - College Student Performance Analytics System{% endblock %}
+{% block title %}Analytics | Student Performance Analytics{% endblock %}
 
 {% block extra_css %}
 <!-- Plotly JS CDN -->
@@ -10,9 +10,16 @@
 {% block content %}
 <div class="container py-4">
     <!-- Header -->
-    <div class="mb-4">
-        <h2 class="fw-bold text-navy mb-1"><i class="bi bi-graph-up-arrow me-2 text-info"></i>Analytics Dashboard</h2>
-        <p class="text-muted small mb-0">Overview of student academic performance, attendance distribution, and risk analysis</p>
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold text-navy mb-1"><i class="bi bi-graph-up-arrow me-2 text-info"></i>Analytics Dashboard</h2>
+            <p class="text-muted small mb-0">Overview of student academic performance, attendance distribution, and risk analysis</p>
+        </div>
+        <div>
+            <a href="{{ url_for('analytics.predict_performance') }}" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm">
+                <i class="bi bi-cpu-fill me-1"></i> View Predictions
+            </a>
+        </div>
     </div>
 
     <!-- 1. Summary Cards (5 Cards) -->

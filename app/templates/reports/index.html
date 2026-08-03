@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Reports | Student Performance Analytics{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="border-bottom pb-3 mb-4">
+                    <h3 class="fw-bold text-navy mb-1">
+                        <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Generate Student Report
+                    </h3>
+                    <p class="text-muted small mb-0">Select a student to generate and download their PDF performance summary report.</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('reports.index') }}">
+                    <div class="mb-4">
+                        <label for="student_id" class="form-label fw-semibold">Select Student <span class="text-danger">*</span></label>
+                        <select class="form-select form-select-lg rounded-3" id="student_id" name="student_id" required {% if not students %}disabled{% endif %}>
+                            {% if students %}
+                                <option value="">-- Choose Student --</option>
+                                {% for s in students %}
+                                    <option value="{{ s.id }}">{{ s.roll_number }} - {{ s.first_name }} {{ s.last_name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="">No students available.</option>
+                            {% endif %}
+                        </select>
+                        {% if not students %}
+                            <p class="text-muted small mt-2">No students available to generate reports.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-semibold" {% if not students %}disabled{% endif %}>
+                            <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>Generate PDF
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

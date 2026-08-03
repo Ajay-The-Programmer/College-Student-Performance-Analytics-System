@@ -95,7 +95,7 @@ class AttendanceTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Attendance saved successfully.", response.data)
+        self.assertIn(b"Attendance Saved Successfully", response.data)
 
         with self.app.app_context():
             rec = Attendance.query.filter_by(attendance_date=date(2026, 8, 2)).first()
@@ -124,7 +124,7 @@ class AttendanceTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Attendance updated successfully.", response.data)
+        self.assertIn(b"Attendance Updated Successfully", response.data)
 
         with self.app.app_context():
             rec = Attendance.query.get(self.attendance_id)
@@ -134,7 +134,7 @@ class AttendanceTestCase(unittest.TestCase):
         """Verify deleting attendance record removes it from database."""
         response = self.client.post(f'/attendance/delete/{self.attendance_id}', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Attendance deleted successfully.", response.data)
+        self.assertIn(b"Attendance Deleted Successfully", response.data)
 
         with self.app.app_context():
             rec = Attendance.query.get(self.attendance_id)

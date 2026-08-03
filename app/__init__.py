@@ -79,6 +79,7 @@ def register_blueprints(flask_app):
     from app.attendance import attendance_bp
     from app.marks import marks_bp
     from app.analytics import analytics_bp
+    from app.reports import reports_bp
 
     flask_app.register_blueprint(auth_bp, url_prefix='/auth')
     flask_app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -86,3 +87,4 @@ def register_blueprints(flask_app):
     flask_app.register_blueprint(attendance_bp, url_prefix='/attendance')
     flask_app.register_blueprint(marks_bp, url_prefix='/marks')
     flask_app.register_blueprint(analytics_bp, url_prefix='/analytics')
+    flask_app.register_blueprint(reports_bp, url_prefix='/reports')

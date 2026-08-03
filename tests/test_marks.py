@@ -102,7 +102,7 @@ class MarksTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Marks saved successfully.", response.data)
+        self.assertIn(b"Marks Saved Successfully", response.data)
 
         with self.app.app_context():
             rec = Marks.query.filter_by(subject_id=sub2_id).first()
@@ -155,7 +155,7 @@ class MarksTestCase(unittest.TestCase):
         }, follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Marks updated successfully.", response.data)
+        self.assertIn(b"Marks Updated Successfully", response.data)
 
         with self.app.app_context():
             rec = Marks.query.get(self.marks_id)
@@ -166,7 +166,7 @@ class MarksTestCase(unittest.TestCase):
         """Verify deleting marks record removes it from database."""
         response = self.client.post(f'/marks/delete/{self.marks_id}', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Marks deleted successfully.", response.data)
+        self.assertIn(b"Marks Deleted Successfully", response.data)
 
         with self.app.app_context():
             rec = Marks.query.get(self.marks_id)

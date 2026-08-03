@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Student List - College Student Performance Analytics System{% endblock %}
+{% block title %}Students | Student Performance Analytics{% endblock %}
 
 {% block content %}
 <div class="container py-4">
@@ -101,8 +101,8 @@
                     {% else %}
                         <tr>
                             <td colspan="7" class="text-center py-5 text-muted">
-                                <i class="bi bi-folder-x display-4 d-block mb-2 text-secondary"></i>
-                                No student records found.
+                                <i class="bi bi-people display-4 d-block mb-2 text-secondary"></i>
+                                No students found.<br><span class="small">Click 'Add Student' to create one.</span>
                             </td>
                         </tr>
                     {% endif %}

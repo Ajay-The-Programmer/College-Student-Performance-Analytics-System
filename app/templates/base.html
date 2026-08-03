@@ -3,7 +3,8 @@
   ==============================================================================
   Project: College Student Performance Analytics System
   Description: Master layout template incorporating Bootstrap 5, Bootstrap Icons,
-               navigation header, dynamic message flashing, and responsive footer.
+               active navigation tracking, dynamic flash messaging, user login status,
+               and standardized footer.
   ==============================================================================
 -->
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}College Student Performance Analytics System{% endblock %}</title>
+    <title>{% block title %}Student Performance Analytics{% endblock %}</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +35,7 @@
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-navy shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 font-weight-bold" href="{{ url_for('index') }}">
+            <a class="navbar-brand d-flex align-items-center gap-2 font-weight-bold" href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('index') }}">
                 <i class="bi bi-mortarboard-fill text-warning fs-4"></i>
                 <span class="brand-text">Student Performance Analytics</span>
             </a>
@@ -45,30 +46,62 @@
 
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                    {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}"><i class="bi bi-house-door me-1"></i>Home</a>
+                        <a class="nav-link {% if request.endpoint in ['dashboard', 'index'] %}active fw-bold{% endif %}" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('students.index') }}"><i class="bi bi-people me-1"></i>Students</a>
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('students.') %}active fw-bold{% endif %}" href="{{ url_for('students.index') }}">
+                            <i class="bi bi-people me-1"></i>Students
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('attendance.overview') }}"><i class="bi bi-calendar-check me-1"></i>Attendance</a>
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('attendance.') %}active fw-bold{% endif %}" href="{{ url_for('attendance.overview') }}">
+                            <i class="bi bi-calendar-check me-1"></i>Attendance
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('marks.overview') }}"><i class="bi bi-journal-bookmark me-1"></i>Marks</a>
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('marks.') %}active fw-bold{% endif %}" href="{{ url_for('marks.overview') }}">
+                            <i class="bi bi-journal-bookmark me-1"></i>Marks
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('analytics.dashboard') }}"><i class="bi bi-graph-up-arrow me-1"></i>Analytics</a>
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('analytics.') %}active fw-bold{% endif %}" href="{{ url_for('analytics.dashboard') }}">
+                            <i class="bi bi-graph-up-arrow me-1"></i>Analytics
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-shield-lock me-1"></i>Admin</a>
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('reports.') %}active fw-bold{% endif %}" href="{{ url_for('reports.index') }}">
+                            <i class="bi bi-file-earmark-pdf me-1"></i>Reports
+                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint and request.endpoint.startswith('admin.') %}active fw-bold{% endif %}" href="{{ url_for('admin.dashboard') }}">
+                            <i class="bi bi-shield-lock me-1"></i>Admin
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'index' %}active fw-bold{% endif %}" href="{{ url_for('index') }}">
+                            <i class="bi bi-house-door me-1"></i>Home
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
 
-                <div class="d-flex align-items-center gap-2">
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm px-3 rounded-pill">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
-                    </a>
+                <div class="d-flex align-items-center gap-3">
+                    {% if current_user.is_authenticated %}
+                        <span class="text-light small"><i class="bi bi-person-circle me-1"></i>Welcome, <strong>{{ current_user.username }}</strong></span>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-sm px-3 rounded-pill">
+                            <i class="bi bi-box-arrow-right me-1"></i>Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm px-3 rounded-pill">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -80,7 +113,14 @@
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show shadow-sm" role="alert">
-                        <i class="bi bi-info-circle-fill me-2"></i>{{ message }}
+                        {% if category == 'success' %}
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                        {% elif category == 'danger' or category == 'error' %}
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {% else %}
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                        {% endif %}
+                        {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
@@ -88,44 +128,17 @@
         {% endwith %}
     </div>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Body -->
     <main class="flex-grow-1">
-        {% if error_title %}
-        <div class="container py-5 text-center">
-            <div class="card shadow border-0 p-5 mx-auto" style="max-width: 600px;">
-                <i class="bi bi-exclamation-triangle text-danger display-1 mb-3"></i>
-                <h2 class="fw-bold">{{ error_title }}</h2>
-                <p class="text-muted fs-5">{{ error_message }}</p>
-                <div>
-                    <a href="{{ url_for('index') }}" class="btn btn-primary rounded-pill px-4 mt-3">Return to Home Page</a>
-                </div>
-            </div>
-        </div>
-        {% else %}
-            {% block content %}{% endblock %}
-        {% endif %}
+        {% block content %}{% endblock %}
     </main>
 
     <!-- Application Footer -->
     <footer class="bg-dark text-white py-4 mt-auto">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
-                    <h6 class="mb-0 font-weight-bold text-uppercase tracking-wide text-warning">College Student Performance Analytics System</h6>
-                    <small class="text-muted">A simple college project for student performance analysis and prediction</small>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <span class="badge bg-secondary me-1">Python 3.12+</span>
-                    <span class="badge bg-primary me-1">Flask</span>
-                    <span class="badge bg-info me-1">MySQL</span>
-                    <span class="badge bg-success me-1">Scikit-Learn</span>
-                    <span class="badge bg-warning text-dark">Plotly</span>
-                </div>
-            </div>
-            <hr class="my-3 border-secondary">
-            <div class="text-center text-muted small">
-                &copy; {{ current_year if current_year else '2026' }} College Analytics System. All rights reserved.
-            </div>
+        <div class="container text-center">
+            <p class="mb-1 fw-bold text-warning">College Student Performance Analytics System</p>
+            <p class="small text-muted mb-1">Developed Using Python • Flask • MySQL • Plotly • Scikit-Learn</p>
+            <p class="small text-white-50 mb-0">Copyright &copy; 2026</p>
         </div>
     </footer>
 

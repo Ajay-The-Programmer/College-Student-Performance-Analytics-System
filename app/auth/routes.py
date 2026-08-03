@@ -32,7 +32,7 @@ def login():
         # Validate user credentials
         if user and user.check_password(password):
             login_user(user)
-            flash(f'Welcome back, {user.username}!', 'success')
+            flash('Login Successful', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid username or password.', 'danger')
@@ -47,5 +47,5 @@ def logout():
     Log out the current user and redirect to login page.
     """
     logout_user()
-    flash('You have been logged out successfully.', 'info')
+    flash('Logout Successful', 'success')
     return redirect(url_for('auth.login'))

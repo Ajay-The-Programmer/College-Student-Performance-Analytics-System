@@ -64,7 +64,7 @@ class AuthTestCase(unittest.TestCase):
             'password': 'admin123'
         }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Welcome back, admin!", response.data)
+        self.assertIn(b"Login Successful", response.data)
 
     def test_faculty_login_redirects_to_dashboard(self):
         """Verify successful faculty login redirects to common dashboard."""
@@ -73,7 +73,7 @@ class AuthTestCase(unittest.TestCase):
             'password': 'faculty123'
         }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Welcome back, faculty!", response.data)
+        self.assertIn(b"Login Successful", response.data)
 
     def test_logout(self):
         """Verify logout redirects to login page."""
@@ -83,7 +83,7 @@ class AuthTestCase(unittest.TestCase):
         })
         response = self.client.get('/auth/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"You have been logged out successfully.", response.data)
+        self.assertIn(b"Logout Successful", response.data)
 
 
 if __name__ == '__main__':

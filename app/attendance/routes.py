@@ -141,7 +141,7 @@ def mark_attendance():
         db.session.add(new_attendance)
         db.session.commit()
 
-        flash('Attendance saved successfully.', 'success')
+        flash('Attendance Saved Successfully', 'success')
         return redirect(url_for('attendance.overview'))
 
     return render_template(
@@ -231,7 +231,7 @@ def edit_attendance(id):
 
         db.session.commit()
 
-        flash('Attendance updated successfully.', 'success')
+        flash('Attendance Updated Successfully', 'success')
         return redirect(url_for('attendance.overview'))
 
     return render_template(
@@ -253,5 +253,5 @@ def delete_attendance(id):
     db.session.delete(attendance)
     db.session.commit()
 
-    flash('Attendance deleted successfully.', 'success')
+    flash('Attendance Deleted Successfully', 'success')
     return redirect(url_for('attendance.overview'))
